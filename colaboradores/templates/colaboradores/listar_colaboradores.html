@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Colaboradores</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'colaboradores/css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-links a {
+            margin-right: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Colaboradores</h1>
+        <nav>
+            <a href="{% url 'home' %}">Página Inicial</a>
+            <a href="{% url 'adicionar_colaborador' %}">Adicionar Colaborador</a>
+        </nav>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for colaborador in colaboradores %}
+                <tr>
+                    <td>{{ colaborador.nome }}</td>
+                    <td>{{ colaborador.cargo }}</td>
+                    <td>{{ colaborador.email }}</td>
+                    <td class="action-links">
+                        <a href="{% url 'atualizar_colaborador' colaborador.pk %}">Atualizar</a>
+                        <a href="{% url 'deletar_colaborador' colaborador.pk %}">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

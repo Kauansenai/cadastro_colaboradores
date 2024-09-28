@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Empréstimos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'emprestimos/css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .alert {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .action-links a {
+            margin-right: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <header>
+            <h1>Lista de Empréstimos</h1>
+            <nav>
+                <a href="{% url 'home' %}">Página Inicial</a>
+                <a href="{% url 'listar_emprestimos' %}">Listar Empréstimos</a>
+                <a href="{% url 'adicionar_emprestimo' %}">Adicionar Empréstimo</a>
+            </nav>
+        </header>
+
+        <!-- Seção para mostrar mensagens -->
+        {% if messages %}
+            <div class="alert">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Colaborador</th>
+                    <th>Equipamento</th>
+                    <th>Quantidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.colaborador.nome }}</td>
+                    <td>{{ emprestimo.equipamento.nome }}</td>
+                    <td>{{ emprestimo.quantidade }}</td>
+                    <td class="action-links">
+                        <a href="{% url 'atualizar_emprestimo' emprestimo.pk %}">Editar</a>
+                        <a href="{% url 'deletar_emprestimo' emprestimo.pk %}">Deletar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Nenhum empréstimo cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

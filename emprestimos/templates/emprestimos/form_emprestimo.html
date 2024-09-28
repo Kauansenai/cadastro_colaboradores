@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if emprestimo %}Editar{% else %}Adicionar{% endif %} Empréstimo</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'equipamentos/css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <header>
+            <h1>{% if emprestimo %}Editar{% else %}Adicionar{% endif %} Empréstimo</h1>
+            <nav>
+                <a href="{% url 'home' %}">Página Inicial</a>
+                <a href="{% url 'listar_emprestimos' %}">Listar Empréstimos</a>
+                <a href="{% url 'adicionar_emprestimo' %}">Adicionar Empréstimo</a>
+            </nav>
+        </header>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="colaborador" class="form-label">Colaborador</label>
+                <select class="form-select" id="colaborador" name="colaborador" required>
+                    <option value="" {% if not emprestimo %}selected{% endif %}>Selecione um colaborador</option>
+                    {% for colaborador in colaboradores %}
+                        <option value="{{ colaborador.pk }}" {% if emprestimo and emprestimo.colaborador.pk == colaborador.pk %}selected{% endif %}>
+                            {{ colaborador.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="equipamento" class="form-label">Equipamento</label>
+                <select class="form-select" id="equipamento" name="equipamento" required>
+                    <option value="" {% if not emprestimo %}selected{% endif %}>Selecione um equipamento</option>
+                    {% for equipamento in equipamentos %}
+                        <option value="{{ equipamento.pk }}" {% if emprestimo and emprestimo.equipamento.pk == equipamento.pk %}selected{% endif %}>
+                            {{ equipamento.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" id="descricao" name="descricao" required>{{ emprestimo.descricao|default:'' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input type="number" class="form-control" id="quantidade" name="quantidade" value="{{ emprestimo.quantidade|default:1 }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">{% if emprestimo %}Atualizar{% else %}Adicionar{% endif %}</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'listar_emprestimos' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </div>
+</body>
+</html>

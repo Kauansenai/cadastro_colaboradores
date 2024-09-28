@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if equipamento %}Editar{% else %}Adicionar{% endif %} Equipamento</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'equipamentos/css/styles.css' %}">
+</head>
+<body>
+    <div class="container mt-4">
+        <header>
+            <h1>{% if equipamento %}Editar{% else %}Adicionar{% endif %} Equipamento</h1>
+            <nav>
+                <a href="{% url 'home' %}">Página Inicial</a>
+                <a href="{% url 'listar_equipamentos' %}">Listar Equipamentos</a>
+                <a href="{% url 'adicionar_equipamento' %}">Adicionar Equipamento</a>
+            </nav>
+        </header>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{ equipamento.nome|default:'' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" id="descricao" name="descricao" required>{{ equipamento.descricao|default:'' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input type="number" class="form-control" id="quantidade" name="quantidade" value="{{ equipamento.quantidade|default:0 }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">{% if equipamento %}Atualizar{% else %}Adicionar{% endif %}</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'listar_equipamentos' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </div>
+</body>
+</html>

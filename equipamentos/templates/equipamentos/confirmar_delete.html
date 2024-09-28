@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Deleção</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'equipamentos/css/styles.css' %}">
+</head>
+<body>
+    <div class="container mt-4">
+        <header>
+            <h1>Confirmar Deleção</h1>
+        </header>
+        <p>Tem certeza de que deseja deletar "{{ equipamento.nome }}"?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Confirmar</button>
+        </form>
+        <a href="{% url 'listar_equipamentos' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</body>
+</html>

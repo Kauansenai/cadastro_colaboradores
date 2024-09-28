@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulário de Colaborador</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'colaboradores/css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Formulário de Colaborador</h1>
+        <nav>
+            <a href="{% url 'home' %}">Página Inicial</a>
+            <a href="{% url 'listar_colaboradores' %}">Listar Colaboradores</a>
+        </nav>
+    </header>
+    <main>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Salvar</button>
+        </form>
+    </main>
+</body>
+</html>
